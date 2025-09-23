@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+ import { useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import ReactPlayer from 'react-player';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
@@ -10,7 +10,7 @@ import chromosome from '../assets/chromosome.jpg';
 import nucleus from '../assets/nucleus.webp';
 import centriole from '../assets/centriole.jpg';
 import cytoplasm from '../assets/cytoplasm.jpg';
-import spindleFibers from '../assets/spindleFibers.jpg';
+import spindleFibers from '../assets/SpindleFibers.jpg';  
 import homologousHeterologous from '../assets/homologousHeterologous.jpg';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import chromosomeVideo from '../assets/vid/Chromosome.mp4';
@@ -618,30 +618,46 @@ const VolumeSlider = styled.input`
 
 const mainTopics = [
   {
+    id: 0,
+    name: "Objectives of the lesson",
+    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop",
+    type: "intro",
+    description: "Introduction to the project and learning objectives"
+  },
+  {
     id: 1,
-    name: "Concept",
-    image: "https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=800&auto=format&fit=crop",
-    type: "concept",
-    description: "Explore fundamental concepts of cell biology"
+    name: "Definition of cell division",
+    image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=800&auto=format&fit=crop",
+    type: "definition",
+    description: "Understand what cell division is and why it matters"
   },
   {
     id: 2,
-    name: "Definition",
-    image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=800&auto=format&fit=crop",
-    type: "definition",
-    description: "Learn key terms and definitions in cell biology"
+    name: "Types of cell division",
+    image: "https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=800&auto=format&fit=crop",
+    type: "concept",
+    description: "Explore mitosis and meiosis as key division types"
   },
   {
     id: 3,
-    name: "Mitosis & Meiosis",  
-    image: mandm,
+    name: "Describe the stages of mitosis",
+    image: mitosisImg,
     type: "simulation",
-    description: "Watch detailed simulations of cell division processes",
+    description: "Walk through prophase to telophase in mitosis",
     videos: [
       {
         name: "Mitosis",
         videoUrl: mitosisVideo
-      },
+      }
+    ]
+  },
+  {
+    id: 4,
+    name: "Illustrate meiosis I and meiosis II",
+    image: meiosisImg,
+    type: "simulation",
+    description: "Visualize stages across meiosis I and II",
+    videos: [
       {
         name: "Meiosis",
         videoUrl: meiosisVideo
@@ -649,27 +665,11 @@ const mainTopics = [
     ]
   },
   {
-    id: 4,
-    name: "Quiz",
+    id: 5,
+    name: "Quizzes",
     image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?q=80&w=800&auto=format&fit=crop",
     type: "quiz",
     description: "Test your knowledge with interactive quizzes"
-  },
-  {
-    id: 7,
-    name: "Mitosis & Meiosis",
-    image: mandm,
-    videos: [
-      {
-        name: "Mitosis",
-        videoUrl: mitosisVideo
-      },
-      {
-        name: "Meiosis",
-        videoUrl: meiosisVideo
-      }
-    ],
-    description: "Compare and contrast the processes of mitosis and meiosis."
   }
 ];
 
@@ -686,14 +686,14 @@ const definitionCards = [
     id: 2,
     name: "Nucleus",
     image: nucleus,
-    videoUrl: "https://www.youtube.com/watch?v=XUM5GMeX3qk&t=52s",
+    videoUrl: "https://www.youtube.com/watch?v=EPBSsGqTC8I",
     description: "Understand the process of nuclear division and its importance in cell reproduction."
   },
   {
     id: 3,
     name: "Centriole",
     image: centriole,
-    videoUrl: "https://www.youtube.com/watch?v=e7p8jmvVPzY",
+    videoUrl: "https://www.youtube.com/watch?v=boX31ln-Ez0",
     description: "Explore the role of centrioles and spindle fibers in cell division."
   },
   {
@@ -1016,6 +1016,7 @@ const PlayOverlay = styled.div`
 const BiologyTopic = () => {  
   const [showConcepts, setShowConcepts] = useState(false);
   const [showDefinitions, setShowDefinitions] = useState(false);
+  const [showIntro, setShowIntro] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [showQuiz, setShowQuiz] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -1137,6 +1138,9 @@ const BiologyTopic = () => {
 
   const handleCardClick = (topic) => {
     switch(topic.type) {
+      case 'intro':
+        setShowIntro(true);
+        break;
       case 'concept':
         setShowConcepts(true);
         break;
@@ -1161,8 +1165,8 @@ const BiologyTopic = () => {
   return (
     <Container>
       <Header>
-        <h1>Cell division fundamental</h1>
-        <p>Explore the essential components of cellular structure and their roles in cell division.</p>
+        <h1>Cell Division in Biology</h1>
+        <p>Learn about cell division fundamentals: Definition of cell division, types of cell division, describe the stages of mitosis, illustrate the stages of meiosis 1 and meiosis 2, and test your knowledge with quizzes.</p>
       </Header>
 
       {!showConcepts ? (
@@ -1190,7 +1194,7 @@ const BiologyTopic = () => {
             <CloseRoundedIcon />
           </CloseButton>
           {definitionCards.map((card) => (
-            <TopicCard 
+            <TopicCard  
               key={card.id} 
               onClick={() => setSelectedTopic(card)}
             >
@@ -1219,6 +1223,26 @@ const BiologyTopic = () => {
                 </div>
               ))}
             </DefinitionList>
+          </ModalContent>
+        </Modal>
+      )}
+
+      {/* Introduction Modal */}
+      {showIntro && (
+        <Modal isOpen={showIntro} onClose={() => setShowIntro(false)}>
+          <ModalContent>
+            <CloseButton onClick={() => setShowIntro(false)}>
+              <CloseRoundedIcon />
+            </CloseButton>
+            <h2>Objectives of the lesson</h2>
+            <p>This interactive package introduces cell division in biology. Explore key concepts, definitions, and visual simulations to deepen understanding, then reinforce learning with quizzes.</p>
+            <ul style={{ color: '#fff', lineHeight: 1.6, marginLeft: '1rem' }}>
+              <li>Definition of cell division</li>
+              <li>Types of cell division</li>
+              <li>Describe the stages of mitosis</li>
+              <li>Illustrate the stages of meiosis I and meiosis II</li>
+              <li>Quizzes</li>
+            </ul>
           </ModalContent>
         </Modal>
       )}
